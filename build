@@ -7,7 +7,7 @@ fi
 OUTPUT="$(readlink -f ./build.xpi)"
 rm -f "${OUTPUT}"
 
-npm run build
+bun run build
 (
     cd "./dist/"
     zip -r "${OUTPUT}" .

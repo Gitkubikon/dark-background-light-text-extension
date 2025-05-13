@@ -40,11 +40,11 @@
   "browser_action": {
     "browser_style": false,
     "default_icon": {
-      "16": "icons/icon16.png",
-      "24": "icons/icon24.png",
-      "32": "icons/icon32.png",
-      "48": "icons/icon48.png",
-      "64": "icons/icon64.png"
+      "16": "/icons/16/icon.png",
+      "32": "/icons/32/icon.png",
+      "48": "/icons/48/icon.png",
+      "96": "/icons/96/icon.png",
+      "128": "/icons/128/icon.png"
     },
     "default_title": "Dark Background and Light Text",
     "default_popup": "ui/configure-for-current-tab-panel.html"

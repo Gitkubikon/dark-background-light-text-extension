@@ -8,119 +8,214 @@
     <link rel="icon" type="image/png" href="../icons/icon64.png" />
     <link rel="stylesheet" href="internal.css" />
     <style>
-      html,
-      body {
+      /* Base layout */
+      html, body {
         width: 100%;
         overflow-x: hidden;
-        box-sizing: border-box; /* on Fennec it's content-box by default */
-        margin: 0px;
-      }
-
-      html {
-        padding: 10px;
-      }
-
-      hr {
+        box-sizing: border-box;
         margin: 0;
       }
 
-      select {
-        max-width: 100%;
-        padding: 0.1em 1em 0.1em 0.1em;
-        margin: 1px;
-      }
-      button {
-        max-width: 100%;
-        display: inline-block;
-        padding: 0.1em;
-        margin: 1px;
-      }
-      @media (max-width: 543px) {
-        button,
-        select {
-          width: calc(100% - 2px);
-        }
+      body {
+        padding: 12px;
+        min-width: 260px;
+        max-width: 300px;
+        background-color: var(--ctp-base);
       }
 
-      select,
-      button,
-      .options_for,
-      .enabled_label,
-      .error_msg {
-        font-size: 1.2em;
-      }
-
-      .enabled_label {
-        box-sizing: border-box;
+      /* Popup header */
+      .popup-header {
         display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-      }
-      .touchscreen .enabled_label {
-        padding-left: 0.75em;
-        padding-right: 0.75em;
+        align-items: center;
+        margin-bottom: 12px;
       }
 
-      .page_settings_container {
+      .popup-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ctp-lavender);
+        margin: 0;
+        flex-grow: 1;
+      }
+
+      /* Enable toggle */
+      .toggle-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .toggle-switch {
         position: relative;
-      }
-
-      .disabled_overlay {
-        background-color: rgba(255, 255, 255, 0.5);
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-      }
-
-      li * {
         display: inline-block;
-        position: relative;
+        width: 36px;
+        height: 20px;
       }
 
-      li {
-        position: relative;
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
       }
 
-      li .label_click_workaround {
+      .toggle-slider {
         position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: var(--ctp-surface-1);
+        transition: .3s;
+        border-radius: 20px;
+      }
+
+      .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 2px;
+        bottom: 2px;
+        background-color: var(--ctp-text);
+        transition: .3s;
+        border-radius: 50%;
+      }
+
+      input:checked + .toggle-slider {
+        background-color: var(--ctp-blue);
+      }
+
+      input:checked + .toggle-slider:before {
+        transform: translateX(16px);
+      }
+
+      /* Dividers */
+      hr {
+        height: 1px;
+        background-color: var(--ctp-surface-1);
+        border: none;
+        margin: 10px 0;
+      }
+
+      /* Site selector */
+      .site-selector {
+        margin-bottom: 12px;
+      }
+
+      .site-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--ctp-subtext-0);
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      /* Method selection */
+      .method-list {
+        list-style-type: none;
+        padding: 0;
+        margin: 10px 0;
+        border: 1px solid var(--ctp-surface-0);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+      }
+
+      .method-item {
+        padding: 8px 10px;
+        position: relative;
+        border-bottom: 1px solid var(--ctp-surface-0);
+        transition: background-color 0.15s ease;
+      }
+
+      .method-item:last-child {
+        border-bottom: none;
+      }
+
+      .method-item:hover {
+        background-color: var(--ctp-surface-0);
+      }
+
+      .method-item .radio-label {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
+        cursor: pointer;
       }
 
-      li .label_no_click {
+      .method-item input[type="radio"] {
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+      .method-item .method-name {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 13px;
         pointer-events: none;
       }
 
-      ul {
-        padding: 0;
-        list-style-type: none;
+      /* Error messages */
+      .error-msg {
+        color: var(--ctp-red);
+        background-color: rgba(243, 139, 168, 0.1);
+        padding: 10px;
+        border-radius: var(--border-radius);
+        margin-bottom: 10px;
+        border-left: 3px solid var(--ctp-red);
+        font-size: 13px;
       }
 
-      .touchscreen li > input,
-      .touchscreen li > span {
-        margin-left: 0.5em;
+      /* Settings link */
+      .global-prefs {
+        margin-top: 12px;
+        text-align: center;
       }
 
-      .touchscreen li,
-      .touchscreen .enabled_label {
-        line-height: 250%;
-        border-style: solid;
-        border-width: 1px;
-        border-color: white;
-        border-radius: 0.6em;
-        margin-bottom: 3pt;
+      .global-prefs button {
+        background-color: var(--ctp-surface-0);
+        color: var(--ctp-subtext-0);
+        border: 1px solid var(--ctp-surface-1);
+        width: 100%;
+        font-size: 12px;
+        padding: 6px 10px;
+        height: auto;
+        transition: all 0.15s ease;
+      }
+
+      .global-prefs button:hover {
+        background-color: var(--ctp-surface-1);
+        color: var(--ctp-text);
+      }
+
+      /* Loading placeholder */
+      #loading-or-error-placeholder {
+        text-align: center;
+        padding: 20px 0;
+        font-size: 14px;
+        color: var(--ctp-subtext-0);
+      }
+
+      /* Disabled state */
+      .page-settings-container {
+        position: relative;
+      }
+
+      .disabled-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(24, 24, 37, 0.7);
+        z-index: 10;
+        border-radius: var(--border-radius);
+        pointer-events: none;
+        backdrop-filter: blur(1px);
       }
     </style>
-    <!--<script type="text/javascript">-->
-    <!--//WETODO: fix this-->
-    <!--window.setTimeout(function(){-->
-    <!--var placeholder = document.getElementById('loading-or-error-placeholder');-->
-    <!--if (placeholder) {-->
-    <!--placeholder.textContent = 'Error. You should not see this';-->
-    <!--}-->
-    <!--}, 3000);-->
-    <!--</script>-->
     <script src="../browser-action.js"></script>
   </head>
   <body>

@@ -1,8 +1,17 @@
 import type { Browser } from 'webextension-polyfill';
+import { get_prefs } from './shared';
 
 declare const browser: Browser;
 
 export async function query_style() {
+  const saved_prefs = await get_prefs();
+  const bgColor = saved_prefs['background'];  // adjust key as needed
+  if (bgColor === 'transparent') {
+    document.documentElement.style.setProperty('--background-color', 'transparent');
+  } else {
+    document.documentElement.style.setProperty('--background-color', String(bgColor));
+  }
+  
   const css_promise = await browser.runtime.sendMessage({
     action: 'query_base_style',
   });

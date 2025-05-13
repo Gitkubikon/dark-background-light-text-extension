@@ -1,94 +1,227 @@
 :root {
-  --dark-background-light-text-add-on-foreground-color: black;
-  --dark-background-light-text-add-on-background-color: white;
-  --dark-background-light-text-add-on-link-color: #0000ff; /*TODO: better default colors */
-  --dark-background-light-text-add-on-visited-color: #a000a0;
-  --dark-background-light-text-add-on-active-color: #ff0000;
-  --dark-background-light-text-add-on-selection-color: #8080ff;
+  /* Catppuccin Mocha Color Palette */
+  --ctp-base: #1e1e2e;
+  --ctp-mantle: #181825;
+  --ctp-crust: #11111b;
+  --ctp-text: #cdd6f4;
+  --ctp-subtext-1: #bac2de;
+  --ctp-subtext-0: #a6adc8;
+  --ctp-overlay-2: #9399b2;
+  --ctp-overlay-1: #7f849c;
+  --ctp-overlay-0: #6c7086;
+  --ctp-surface-2: #585b70;
+  --ctp-surface-1: #45475a;
+  --ctp-surface-0: #313244;
+  --ctp-blue: #89b4fa;
+  --ctp-lavender: #b4befe;
+  --ctp-sapphire: #74c7ec;
+  --ctp-sky: #89dceb;
+  --ctp-teal: #94e2d5;
+  --ctp-green: #a6e3a1;
+  --ctp-yellow: #f9e2af;
+  --ctp-peach: #fab387;
+  --ctp-maroon: #eba0ac;
+  --ctp-red: #f38ba8;
+  --ctp-mauve: #cba6f7;
+  --ctp-pink: #f5c2e7;
+  --ctp-flamingo: #f2cdcd;
+  --ctp-rosewater: #f5e0dc;
+  
+  /* UI Component Variables */
+  --ui-text: var(--ctp-text);
+  --ui-subtext: var(--ctp-subtext-1);
+  --ui-background: var(--ctp-base);
+  --ui-surface: var(--ctp-surface-0);
+  --ui-border: var(--ctp-surface-1);
+  --ui-accent: var(--ctp-blue);
+  --ui-accent-hover: var(--ctp-lavender);
+  --ui-danger: var(--ctp-red);
+  --ui-danger-hover: var(--ctp-maroon);
+  --ui-success: var(--ctp-green);
+  --ui-warning: var(--ctp-peach);
+  --ui-selection: var(--ctp-surface-1);
+  --ui-highlight: rgba(203, 166, 247, 0.15);
+  
+  /* Extension variables */
+  --dark-background-light-text-add-on-foreground-color: var(--ui-text);
+  --dark-background-light-text-add-on-background-color: var(--ui-background);
+  --dark-background-light-text-add-on-link-color: var(--ctp-sapphire);
+  --dark-background-light-text-add-on-visited-color: var(--ctp-mauve);
+  --dark-background-light-text-add-on-active-color: var(--ctp-maroon);
+  --dark-background-light-text-add-on-selection-color: var(--ctp-lavender);
+
+  /* UI Dimensions */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --border-radius: 6px;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-html,
-body {
-  font: caption;
-  color: var(--dark-background-light-text-add-on-foreground-color);
-  background-color: var(--dark-background-light-text-add-on-background-color);
+/* Base styles */
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ui-text);
+  background-color: var(--ui-background);
+  margin: 0;
+  padding: 0;
 }
 
-input,
-button,
-select {
+/* Form elements */
+input, button, select {
+  font-family: inherit;
+  font-size: inherit;
   box-sizing: border-box;
 }
 
-button,
-select,
-input[type='color'] {
+button, select, input[type="color"] {
   cursor: pointer;
 }
 
+/* Remove Firefox inner focus ring */
 button::-moz-focus-inner {
   border: 0;
 }
 
-input[type='checkbox'],
-input[type='radio'] {
-  height: 1em;
-  width: 1em;
-  font-size: 1em;
+/* Checkboxes and radio buttons */
+input[type="checkbox"], input[type="radio"] {
+  height: 16px;
+  width: 16px;
+  margin: 0 var(--space-sm) 0 0;
+  accent-color: var(--ui-accent);
+  vertical-align: middle;
 }
 
-select,
-input[type='color'],
-input[type='text'],
+/* Text inputs, buttons, and selects */
+select, 
+input[type="color"], 
+input[type="text"], 
 button {
-  -moz-appearance: none;
-  color: var(--dark-background-light-text-add-on-foreground-color);
-  font-size: 1em;
-  line-height: 1.2em;
-  padding: 0.5em 0.5em;
-  border-radius: 0.2em;
-  border-width: 1px;
-  /* similar selector from base.css has higher specificity and should overwrite color below but it doesn't (bug?) */
-  border-color: var(--dark-background-light-text-add-on-foreground-color);
-  border-style: solid;
-  background-color: var(--dark-background-light-text-add-on-background-color);
-  transition-duration: 0.3s;
-  transition-property: border-color, box-shadow;
+  height: 30px;
+  padding: 0 var(--space-md);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--ui-border);
+  background-color: var(--ctp-surface-0);
+  color: var(--ui-text);
+  transition: all 0.15s ease;
+  outline: none;
 }
 
-input[type='text'] {
-  box-shadow: inset 0 0 0.15em 0.15em transparent;
-}
-
-input[type='text']:focus {
-  box-shadow: inset 0 0 0.15em 0.15em
-    var(--dark-background-light-text-add-on-selection-color) !important;
-  border-color: var(
-    --dark-background-light-text-add-on-selection-color
-  ) !important;
-}
-
-select,
-input[type='color'],
-button {
-  box-shadow: 0 0 0.15em 0.15em transparent !important;
-}
-
-select:focus,
-input[type='color']:focus,
+/* Focus states */
+select:focus, 
+input[type="color"]:focus, 
+input[type="text"]:focus, 
 button:focus {
-  box-shadow: 0 0 0.15em 0.15em
-    var(--dark-background-light-text-add-on-selection-color) !important;
-  border-color: var(
-    --dark-background-light-text-add-on-selection-color
-  ) !important;
+  border-color: var(--ui-accent);
+  box-shadow: 0 0 0 2px rgba(137, 180, 250, 0.3);
 }
 
+/* Button styles */
+button {
+  background-color: var(--ctp-surface-0);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:hover {
+  background-color: var(--ctp-surface-1);
+}
+
+button:active {
+  background-color: var(--ctp-surface-2);
+}
+
+/* Select dropdown styling */
 select {
-  text-overflow: ellipsis;
-  background-image: url('data:image/svg+xml;utf8,<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"><path stroke="%23000000" fill="transparent" stroke-width="40" d="M 100 175 L 250 350 L 400 175"/></svg>');
-  background-position: right center;
+  padding-right: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23bac2de' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-position: right 8px center;
   background-repeat: no-repeat;
-  padding-right: 1em;
-  background-size: 1em;
+  background-size: 16px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-overflow: ellipsis;
+}
+
+/* Color input styling */
+input[type="color"] {
+  padding: 2px;
+  background-color: var(--ctp-surface-0);
+  min-width: 32px;
+}
+
+input[type="text"] {
+  background-color: var(--ctp-surface-0);
+}
+
+/* Add scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ctp-mantle);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ctp-surface-1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ctp-surface-2);
+}
+
+/* Utility classes */
+.full-width {
+  width: 100%;
+}
+
+.accent-button {
+  background-color: var(--ui-accent);
+  color: var(--ctp-crust);
+  border-color: var(--ui-accent);
+  font-weight: 600;
+}
+
+.accent-button:hover {
+  background-color: var(--ui-accent-hover);
+  border-color: var(--ui-accent-hover);
+}
+
+.danger-button {
+  background-color: rgba(243, 139, 168, 0.15);
+  color: var(--ctp-red);
+  border-color: var(--ctp-red);
+}
+
+.danger-button:hover {
+  background-color: rgba(243, 139, 168, 0.25);
+}
+
+/* Links */
+a {
+  color: var(--ctp-blue);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--ctp-lavender);
+}
+
+/* Container for sections */
+.section, .settings-section {
+  box-shadow: var(--shadow-sm);
 }
